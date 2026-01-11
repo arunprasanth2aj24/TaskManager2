@@ -56,7 +56,7 @@ public class Main {
             //Here printing no of options we have and getting input as choice to perform the action
                 Integer choice = 0;
             //This while loop runs untill the user gives choice as 5 i.e Exit
-                while (choice != 5 ) {
+                while (choice != 6 ) {
                     System.out.print("Welcome ");
                     System.out.println(currentUser.getUserName());
 
@@ -64,7 +64,8 @@ public class Main {
                     System.out.println("2.List all my tasks");
                     System.out.println("3.Update");
                     System.out.println("4.Delete");
-                    System.out.println("5.Exit");
+                    System.out.println("5.Update Status");
+                    System.out.println("6.Exit");
                     System.out.println("Select a choice from above list");
                     choice = new Integer(scan.nextLine());
 
@@ -74,10 +75,12 @@ public class Main {
                         // This loop used to print all the Existing task descripion that user have
                         for (int count = 0; count < currentUser.getTaskArray().length; count++) {
                             if (currentUser.getTaskArray()[count] != null) {
-                                //this condition prints every Tasks descriptions with the counter variable
                                 System.out.print(count + 1);
                                 System.out.print(". ");
-                                System.out.println(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
                                 checker = true;
                             }
                         }
@@ -102,8 +105,8 @@ public class Main {
                             }
                         }
                     }
-                    //If the user choice is 5 this condition executes
-                    else if (choice == 5) {
+                    //If the user choice is 6 this condition executes
+                    else if (choice == 6) {
                         System.out.println("Thanks for using our app");
                     }
 
@@ -116,7 +119,10 @@ public class Main {
                             if (currentUser.getTaskArray()[count] != null) {
                                 System.out.print(count + 1);
                                 System.out.print(". ");
-                                System.out.println(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
                                 taskChecker = true;
                             }
                         }
@@ -134,7 +140,10 @@ public class Main {
                             if (currentUser.getTaskArray()[count] != null) {
                                 System.out.print(count + 1);
                                 System.out.print(". ");
-                                System.out.println(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
                                 taskChecker = true;
                             }
 
@@ -173,7 +182,10 @@ public class Main {
                             if (currentUser.getTaskArray()[count] != null) {
                                 System.out.print(count + 1);
                                 System.out.print(". ");
-                                System.out.println(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
                                 taskChecker = true;
                             }
                         }
@@ -197,6 +209,51 @@ public class Main {
                             currentUser.getTaskArray()[deleteChoice - 1]=(null);
                             System.out.println("Task deleted sucessfully");
                             }
+                        }
+                    }
+                    else if (choice == 5){
+                        boolean taskChecker = false;
+                        for (int count = 0; count < currentUser.getTaskArray().length; count++) {
+                            if (currentUser.getTaskArray()[count] != null) {
+                                System.out.print(count + 1);
+                                System.out.print(". ");
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
+                                taskChecker = true;
+                            }
+                        }if (!taskChecker){
+                            System.out.println("There is no task to update status");
+                        }
+                        if (taskChecker){
+                            System.out.println("Select a task from the above list to update its status");
+                            Integer updateChoice = new Integer (scan.nextLine());
+
+
+                            System.out.println("1.To-Do");
+                            System.out.println("2.In-Progress");
+                            System.out.println("3.Done");
+                            System.out.println("Select status progress");
+
+                            Integer statusChoice = new Integer (scan.nextLine());
+
+                            Task selectedStatus = currentUser.getTaskArray()[updateChoice - 1];
+
+                            if (statusChoice == 1){
+                                selectedStatus.setStatus("To-Do");
+                            }
+                            else if (statusChoice == 2){
+                                selectedStatus.setStatus("In-Progress");
+                            }
+                            else if (statusChoice == 3){
+                                selectedStatus.setStatus("Done");
+                            }
+                            else {
+                                System.out.println("Enter a valid status progress");
+                            }
+
+
                         }
                     }
                 }
