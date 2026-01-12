@@ -3,11 +3,10 @@ package TaskManager;
 public class Task {
 
     private String taskDescription;
-    private String status;
+    private String status = "To-Do";
 
     public Task(String taskDescription) {
         this.taskDescription = taskDescription;
-        this.status = "TO_DO";
     }
     public Task(){
 
