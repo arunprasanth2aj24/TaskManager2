@@ -3,10 +3,12 @@ package TaskManager;
 public class Task {
 
     private String taskDescription;
+    private String taskTittle;
     private String status = "To-Do";
 
-    public Task(String taskDescription) {
+    public Task(String taskDescription, String tittle) {
         this.taskDescription = taskDescription;
+        this.taskTittle = tittle;
     }
     public Task(){
 
@@ -27,5 +29,13 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTaskTittle() {
+        return taskTittle;
+    }
+
+    public void setTaskTittle(String taskTittle) {
+        this.taskTittle = taskTittle;
     }
 }

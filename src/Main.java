@@ -1,4 +1,5 @@
-package TaskManager;
+import TaskManager.Task;
+import TaskManager.User;
 
 import java.util.Scanner;
 
@@ -56,7 +57,7 @@ public class Main {
             //Here printing no of options we have and getting input as choice to perform the action
             Integer choice = 0;
             //This while loop runs untill the user gives choice as 5 i.e Exit
-            while (choice != 9) {
+            while (choice != 5) {
                 System.out.print("Welcome ");
                 System.out.println(currentUser.getUserName());
 
@@ -64,22 +65,19 @@ public class Main {
                 System.out.println("2.List all my tasks");
                 System.out.println("3.Update");
                 System.out.println("4.Delete");
-                System.out.println("5.Update Status");
-                System.out.println("6.List To-Do tasks");
-                System.out.println("7.List In-Progress tasks");
-                System.out.println("8.List Done tasks");
-                System.out.println("9.Exit");
+                System.out.println("5.Exit");
                 System.out.println("Select a choice from above list");
                 choice = new Integer(scan.nextLine());
 
 
                 if (choice == 1) {
                     boolean checker = false;
-                    // This loop used to print all the Existing task descripion that user have
                     for (int count = 0; count < currentUser.getTaskArray().length; count++) {
                         if (currentUser.getTaskArray()[count] != null) {
                             System.out.print(count + 1);
                             System.out.print(". ");
+                            System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                            System.out.print("  ");
                             System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
                             System.out.print(" [");
                             System.out.print(currentUser.getTaskArray()[count].getStatus());
@@ -87,24 +85,24 @@ public class Main {
                             checker = true;
                         }
                     }
-                    // If there is no task this block executes
                     if (checker == false) {
                         System.out.println("There is no task yet");
                     }
-                    // This block executes always when user choice is 1
-                    // It gets the task description and stores in a variable
                     System.out.println("_____________________");
+                    System.out.println("Enter your Task Tittle ");
+                    String taskTittle = scan.nextLine();
+
                     System.out.println("Enter your Task Description ");
                     String taskDescription = scan.nextLine();
-                    Task userTask = new Task(taskDescription);
-                    // this loop is used to store the task description only where the index is null
+
+                    Task userTask = new Task(taskDescription,taskTittle);
 
                     for (int count = 0; count < currentUser.getTaskArray().length; count++) {
 
                         if (currentUser.getTaskArray()[count] == null) {
-                            // Here it stpres the taskDescription inside TaskArray using counter variable
-                            // And stops the loop after storing the task description
+
                             currentUser.getTaskArray()[count] = userTask;
+                            currentUser.getTaskArray()[count].setTaskTittle(taskTittle);
                             System.out.println("Task added sucessfully ");
 
                             break;
@@ -112,37 +110,86 @@ public class Main {
                     }
                 }
                 //If the user choice is 6 this condition executes
-                else if (choice == 9) {
+                else if (choice == 5) {
                     System.out.println("Thanks for using our app");
-                } else if (choice == 2) {
-                    boolean taskChecker = false;
-                    // This block executes to print all the existing task descriptions
+                }
+                else if (choice == 2) {
+                    boolean checker1 = false;
+                    boolean checker2 = false;
+                    boolean checker3 = false;
+
+                    {
+                        System.out.println("------------- To-Do Tasks -------------");
+                        for (int count = 0; count < currentUser.getTaskArray().length; count++) {
+
+                            if (currentUser.getTaskArray()[count] != null && currentUser.getTaskArray()[count].getStatus().equals("To-Do")) {
+                                System.out.print(count + 1);
+                                System.out.print(". ");
+                                System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                                System.out.print("  ");
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
+                                checker1 = true;
+
+                            }
+                        }
+                        if (checker1 == false) {
+                            System.out.println("There is no To-Do tasks");
+                        }
+                    }
+
+                    {
+                        System.out.println("------------- In-Progress Tasks -------------");
                     for (int count = 0; count < currentUser.getTaskArray().length; count++) {
-                        // This if block executes only the Task Array is not null
-                        // If it runs even it is null it throws an error because there is no value to print
-                        if (currentUser.getTaskArray()[count] != null) {
+
+                        if (currentUser.getTaskArray()[count] != null && currentUser.getTaskArray()[count].getStatus().equals("In-Progress")) {
                             System.out.print(count + 1);
                             System.out.print(". ");
+                            System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                            System.out.print("  ");
                             System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
                             System.out.print(" [");
                             System.out.print(currentUser.getTaskArray()[count].getStatus());
                             System.out.println("]");
-                            taskChecker = true;
+                            checker2 = true;
                         }
+                    }if (checker2 == false){
+                        System.out.println("There is no In-Progress tasks");
                     }
-                    // Flag is used to check if the printing of all tasks are printed or not
-                    // If not the flag remains false then this block will executes
-                    if (taskChecker == false) {
-                        System.out.println("There is no task still now, add new tasks to list");
+                    }
+
+                    {
+                        System.out.println("------------- Done Tasks -------------");
+                        for (int count = 0; count < currentUser.getTaskArray().length; count++) {
+
+                            if (currentUser.getTaskArray()[count] != null && currentUser.getTaskArray()[count].getStatus().equals("Done")) {
+
+                                System.out.print(count + 1);
+                                System.out.print(". ");
+                                System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                                System.out.print("  ");
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
+                                checker3 = true;
+                            }
+                            }if (checker3 == false){
+                        System.out.println("There is no Done tasks");
+
+
+                    }
                     }
                 } else if (choice == 3) {
                     boolean taskChecker = false;
-                    // This block is used to display all the tasks the user stored
-                    // To get choice from the user to update the task
                     for (int count = 0; count < currentUser.getTaskArray().length; count++) {
                         if (currentUser.getTaskArray()[count] != null) {
                             System.out.print(count + 1);
                             System.out.print(". ");
+                            System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                            System.out.print("  ");
                             System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
                             System.out.print(" [");
                             System.out.print(currentUser.getTaskArray()[count].getStatus());
@@ -158,23 +205,50 @@ public class Main {
                     }
                     // This block is used to get the choice from the user
                     else if (taskChecker == true) {
+
                         System.out.println("Enter your choice from the list to update");
                         Integer updateChoice = new Integer(scan.nextLine());
 
-                        // this if condition is used to check if the user given the correct choice
-                        // if the user gives the choice that not in the listed Tasks it executes this block
                         if (currentUser.getTaskArray()[updateChoice - 1] == null) {
-
                             System.out.println("Enter a valid choice");
                         }
-                        // This block gets the task description and stores in a variable
-                        // And accessing the Task array using user choice as index and updates that taskDescription
-                        else {
+
+                        System.out.println("1.Update Description");
+                        System.out.println("2.Update Status");
+                        Integer uChoice = new Integer(scan.nextLine());
+
+                        if(uChoice == 1){
+
+
                             System.out.println("Enter new task description to update");
                             String newTask = (scan.nextLine());
                             currentUser.getTaskArray()[updateChoice - 1].setTaskDescription(newTask);
                             System.out.println("New task updated sucessfully ");
                         }
+                        else if (uChoice == 2){
+
+                        System.out.println("Select status progress");
+
+                        System.out.println("1.To-Do");
+                        System.out.println("2.In-Progress");
+                        System.out.println("3.Done");
+
+                        Integer statusChoice = new Integer(scan.nextLine());
+                            if (statusChoice == 1) {
+                                currentUser.getTaskArray()[updateChoice - 1].setStatus("To-Do");
+                            } else if (statusChoice == 2) {
+                                currentUser.getTaskArray()[updateChoice - 1].setStatus("In-Progress");
+                            } else if (statusChoice == 3) {
+                                currentUser.getTaskArray()[updateChoice - 1].setStatus("Done");
+                            } else {
+                                System.out.println("Enter a valid status progress");
+                            }
+                        }
+
+
+
+
+
                     }
                 } else if (choice == 4) {
                     boolean taskChecker = false;
@@ -184,6 +258,8 @@ public class Main {
                         if (currentUser.getTaskArray()[count] != null) {
                             System.out.print(count + 1);
                             System.out.print(". ");
+                            System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                            System.out.print("  ");
                             System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
                             System.out.print(" [");
                             System.out.print(currentUser.getTaskArray()[count].getStatus());
@@ -211,81 +287,14 @@ public class Main {
                             System.out.println("Task deleted sucessfully");
                         }
                     }
-                } else if (choice == 5) {
-                    boolean taskChecker = false;
-                    for (int count = 0; count < currentUser.getTaskArray().length; count++) {
-                        if (currentUser.getTaskArray()[count] != null) {
-                            System.out.print(count + 1);
-                            System.out.print(". ");
-                            System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
-                            System.out.print(" [");
-                            System.out.print(currentUser.getTaskArray()[count].getStatus());
-                            System.out.println("]");
-                            taskChecker = true;
-                        }
-                    }
-                    if (!taskChecker) {
-                        System.out.println("There is no task to update status");
-                    }
-                    if (taskChecker) {
-                        System.out.println("Select a task from the above list to update its status");
-                        Integer updateChoice = new Integer(scan.nextLine());
-
-
-                        System.out.println("1.To-Do");
-                        System.out.println("2.In-Progress");
-                        System.out.println("3.Done");
-                        System.out.println("Select status progress");
-
-                        Integer statusChoice = new Integer(scan.nextLine());
-
-                        if (statusChoice == 1) {
-                            currentUser.getTaskArray()[updateChoice - 1].setStatus("To-Do");
-                        } else if (statusChoice == 2) {
-                            currentUser.getTaskArray()[updateChoice - 1].setStatus("In-Progress");
-                        } else if (statusChoice == 3) {
-                            currentUser.getTaskArray()[updateChoice - 1].setStatus("Done");
-                        } else {
-                            System.out.println("Enter a valid status progress");
-                        }
-
-
-                    }
-                } else if (choice == 6) {
-                    for (int count = 0; count < currentUser.getTaskArray().length;count++){
-                        if (currentUser.getTaskArray()[count] != null && currentUser.getTaskArray()[count].getStatus().equals("To-Do")) {
-                                System.out.print(count + 1);
-                                System.out.print(". ");
-                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
-                                System.out.print(" [");
-                                System.out.print(currentUser.getTaskArray()[count].getStatus());
-                                System.out.println("]");
-                            }
-                        }
-                    }else if (choice == 7) {
-                    for (int count = 0; count < currentUser.getTaskArray().length;count++){
-                        if (currentUser.getTaskArray()[count] != null && currentUser.getTaskArray()[count].getStatus().equals("In-Progress")) {
-                            System.out.print(count + 1);
-                            System.out.print(". ");
-                            System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
-                            System.out.print(" [");
-                            System.out.print(currentUser.getTaskArray()[count].getStatus());
-                            System.out.println("]");
-                        }
-                    }
-                }else if (choice == 8) {
-                    for (int count = 0; count < currentUser.getTaskArray().length;count++){
-                        if (currentUser.getTaskArray()[count] != null && currentUser.getTaskArray()[count].getStatus().equals("Done")) {
-                            System.out.print(count + 1);
-                            System.out.print(". ");
-                            System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
-                            System.out.print(" [");
-                            System.out.print(currentUser.getTaskArray()[count].getStatus());
-                            System.out.println("]");
-                        }
-                    }
                 }
+
+
+
+
+                    }
                 }
             }
         }
-    }
+
+
