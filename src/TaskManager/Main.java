@@ -62,13 +62,18 @@ public class Main {
                 if (choice == 1) {
 
                     boolean checker = false;
+
                     for (int count = 0; count < currentUser.getTaskArray().length; count++) {
                         if (currentUser.getTaskArray()[count] != null) {
                             System.out.print(count + 1);
                             System.out.print(". ");
                             System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
-                            System.out.print("  ");
-                            System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+
+                            if (currentUser.getTaskArray()[count].getTaskDescription() != null) {
+                                System.out.print("  ");
+                                System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                            }
+
                             System.out.print(" [");
                             System.out.print(currentUser.getTaskArray()[count].getStatus());
                             System.out.println("]");
@@ -78,17 +83,9 @@ public class Main {
                     if (checker == false) {
                         System.out.println("There is no task yet");
                     }
-
+                    boolean execute = true;
+                    while (execute) {
                         try {
-                            System.out.println("Do you want to continue (yes / exit)");
-                            String confirm = scan.nextLine();
-
-                            if (confirm.equals("exit")) {
-                                throw new Exception();
-                            }
-                            if (!confirm.equals("yes")) {
-                                throw new Exception();
-                            }
 
                             System.out.println("Enter your Task Tittle ");
                             String taskTittle = scan.nextLine();
@@ -97,14 +94,7 @@ public class Main {
                                 throw new Exception();
                             }
 
-                            System.out.println("Enter your Task Description ");
-                            String taskDescription = scan.nextLine();
-
-                            if (taskDescription.equals("exit")) {
-                                throw new Exception();
-                            }
-
-                            Task userTask = new Task(taskDescription, taskTittle);
+                            Task userTask = new Task(taskTittle);
 
                             for (int count = 0; count < currentUser.getTaskArray().length; count++) {
                                 if (currentUser.getTaskArray()[count] == null) {
@@ -115,13 +105,38 @@ public class Main {
                                 }
                             }
 
+                            if (taskTittle != null) {
+
+                                System.out.println("Do you want to add Description (yes/no/exit)");
+                                String confirm = scan.nextLine();
+
+                                if (confirm.equals("exit")) {
+                                    throw new Exception();
+                                } else if (confirm.equals("yes")) {
+
+                                    System.out.println("Enter your Task Description");
+                                    String taskDescription = scan.nextLine();
+
+                                    if (taskDescription.equals("exit")) {
+                                        throw new Exception();
+                                    }
+
+                                    for (int count = 0; count < currentUser.getTaskArray().length; count++) {
+                                        if (currentUser.getTaskArray()[count].getTaskTittle().equals(taskTittle)) {
+                                            currentUser.getTaskArray()[count].setTaskDescription(taskDescription);
+                                            System.out.println("Task Description added sucessfully");
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
                         } catch (Exception e) {
-                            System.out.println("EXIT FROM CURRENT ACTION");
+                            System.out.println("EXITED FROM CURRENT ACTION");
+                            execute = false;
                         }
                     }
-
-
-                else if (choice == 2) {
+                } else if (choice == 2) {
 
                     boolean checker1 = false;
                     boolean checker2 = false;
@@ -129,12 +144,14 @@ public class Main {
 
                     System.out.println("------------- To-Do Tasks -------------");
                     for (int count = 0; count < currentUser.getTaskArray().length; count++) {
-                        if (currentUser.getTaskArray()[count] != null &&
-                                currentUser.getTaskArray()[count].getStatus().equals("To-Do")) {
-
+                        if (currentUser.getTaskArray()[count] != null && currentUser.getTaskArray()[count].getStatus().equals("To-Do")) {
                             System.out.print(count + 1);
                             System.out.print(". ");
                             System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                            if (currentUser.getTaskArray()[count].getTaskDescription() != null) {
+                                System.out.print("  ");
+                                System.out.println(currentUser.getTaskArray()[count].getTaskDescription());
+                            }
                             checker1 = true;
                         }
                     }
@@ -150,6 +167,10 @@ public class Main {
                             System.out.print(count + 1);
                             System.out.print(". ");
                             System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                            if (currentUser.getTaskArray()[count].getTaskDescription() != null) {
+                                System.out.print("  ");
+                                System.out.println(currentUser.getTaskArray()[count].getTaskDescription());
+                            }
                             checker2 = true;
                         }
                     }
@@ -165,45 +186,43 @@ public class Main {
                             System.out.print(count + 1);
                             System.out.print(". ");
                             System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+                            if (currentUser.getTaskArray()[count].getTaskDescription() != null) {
+                                System.out.print("  ");
+                                System.out.println(currentUser.getTaskArray()[count].getTaskDescription());
+                            }
                             checker3 = true;
                         }
                     }
                     if (checker3 == false) {
                         System.out.println("There is no Done tasks");
                     }
-                }
-
-
-                else if (choice == 3) {
+                } else if (choice == 3) {
                     boolean taskChecker = false;
-                    for (int count = 0; count < currentUser.getTaskArray().length; count++) {
-                        if (currentUser.getTaskArray()[count] != null) {
-                            System.out.print(count + 1);
-                            System.out.print(". ");
-                            System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
-                            System.out.print("  ");
-                            System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
-                            System.out.print(" [");
-                            System.out.print(currentUser.getTaskArray()[count].getStatus());
-                            System.out.println("]");
-                            taskChecker = true;
+                    boolean execute = true;
+                    while (execute) {
+                        for (int count = 0; count < currentUser.getTaskArray().length; count++) {
+                            if (currentUser.getTaskArray()[count] != null) {
+                                System.out.print(count + 1);
+                                System.out.print(". ");
+                                System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+
+                                if (currentUser.getTaskArray()[count].getTaskDescription() != null) {
+                                    System.out.print("  ");
+                                    System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                }
+
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
+                                taskChecker = true;
+                            }
+                        }
+                        if (taskChecker == false) {
+                            System.out.println("There is no task still now, add new tasks to update");
+                            continue;
                         }
 
-                    }
-                    if (taskChecker == false) {
-                        System.out.println("There is no task still now, add new tasks to update");
-                        continue;
-                    }
                         try {
-                            System.out.println("Do you want to continue (yes / exit)");
-                            String confirm = scan.nextLine();
-
-                            if (confirm.equals("exit")) {
-                                throw new Exception();
-                            }
-                            if (!confirm.equals("yes")) {
-                                throw new Exception();
-                            }
 
                             System.out.println("Enter your choice from the list to update");
                             String input = scan.nextLine();
@@ -212,7 +231,7 @@ public class Main {
                                 throw new Exception();
                             }
 
-                            int updateChoice = Integer.parseInt(input);
+                            Integer updateChoice = new Integer(input);
 
                             if (currentUser.getTaskArray()[updateChoice - 1] == null) {
                                 throw new Exception();
@@ -225,10 +244,6 @@ public class Main {
                             if (uChoice == 1) {
                                 System.out.println("Enter new task description to update");
                                 String newTask = scan.nextLine();
-
-                                if (newTask.equals("exit")) {
-                                    throw new Exception();
-                                }
 
                                 currentUser.getTaskArray()[updateChoice - 1].setTaskDescription(newTask);
                                 System.out.println("New task updated sucessfully");
@@ -254,43 +269,40 @@ public class Main {
 
                         } catch (Exception e) {
                             System.out.println("EXIT FROM CURRENT ACTION");
+                            execute = false;
                         }
                     }
-
-
-                    else if (choice == 4) {
+                } else if (choice == 4) {
                     boolean taskChecker = false;
-                    // This block is used to display all the tasks the user stored
-                    // To get choice from the user to update the task -
-                    for (int count = 0; count < currentUser.getTaskArray().length; count++) {
-                        if (currentUser.getTaskArray()[count] != null) {
-                            System.out.print(count + 1);
-                            System.out.print(". ");
-                            System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
-                            System.out.print("  ");
-                            System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
-                            System.out.print(" [");
-                            System.out.print(currentUser.getTaskArray()[count].getStatus());
-                            System.out.println("]");
-                            taskChecker = true;
+
+
+                    boolean execute = true;
+                    while (execute) {
+                        for (int count = 0; count < currentUser.getTaskArray().length; count++) {
+                            if (currentUser.getTaskArray()[count] != null) {
+                                System.out.print(count + 1);
+                                System.out.print(". ");
+                                System.out.println(currentUser.getTaskArray()[count].getTaskTittle());
+
+                                if (currentUser.getTaskArray()[count].getTaskDescription() != null) {
+                                    System.out.print("  ");
+                                    System.out.print(currentUser.getTaskArray()[count].getTaskDescription());
+                                }
+
+                                System.out.print(" [");
+                                System.out.print(currentUser.getTaskArray()[count].getStatus());
+                                System.out.println("]");
+                                taskChecker = true;
+                            }
                         }
-                    }
-                    // If there is no tasksDescriptions in the array it executes this condition that we get to know using the flag
-                    if (taskChecker == false) {
-                        System.out.println("There is no task to delete");
-                        continue;
-                    }
+                        // If there is no tasksDescriptions in the array it executes this condition that we get to know using the flag
+                        if (taskChecker == false) {
+                            System.out.println("There is no task to delete");
+                            continue;
+                        }
 
                         try {
-                            System.out.println("Do you want to continue (yes / exit)");
-                            String confirm = scan.nextLine();
 
-                            if (confirm.equals("exit")) {
-                                throw new Exception();
-                            }
-                            if (!confirm.equals("yes")) {
-                                throw new Exception();
-                            }
 
                             System.out.println("Enter your choice from the list to delete");
                             String input = scan.nextLine();
@@ -298,6 +310,17 @@ public class Main {
                             if (input.equals("exit")) {
                                 throw new Exception();
                             }
+
+                            System.out.println("Do you want to Delete (yes / no)");
+                            String confirm = scan.nextLine();
+
+                            if (confirm.equals("no")) {
+                                throw new Exception();
+                            }
+                            if (!confirm.equals("yes")) {
+                                throw new Exception();
+                            }
+
 
                             Integer deleteChoice = new Integer(input);
 
@@ -310,12 +333,30 @@ public class Main {
 
                         } catch (Exception e) {
                             System.out.println("EXIT FROM CURRENT ACTION");
+                            execute = false;
+                        }
+
+                        for (int a = 0; a < currentUser.getTaskArray().length; a++) {
+
+                            if (currentUser.getTaskArray()[a] != null) {
+                                continue;
+                            }
+                            for (int b = a + 1; b < currentUser.getTaskArray().length; b++) {
+
+                                if (currentUser.getTaskArray()[b] != null) {
+                                    currentUser.getTaskArray()[a] = currentUser.getTaskArray()[b];
+                                    currentUser.getTaskArray()[b] = null;
+                                    break;
+                                }
+                            }
                         }
                     }
-
+                }
                     else if (choice == 5) {
                         System.out.println("Thanks for using our app");
+
                     }
+
                 }
             }
         }

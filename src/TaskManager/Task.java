@@ -10,6 +10,10 @@ public class Task {
         this.taskDescription = taskDescription;
         this.taskTittle = tittle;
     }
+    public Task( String tittle) {
+        this.taskTittle = tittle;
+    }
+
     public Task(){
 
     }
